@@ -2,8 +2,8 @@ import gradio as gr
 import sys
 import cv2
 
-from td_abg import get_foreground
-from convertor import pil2cv
+from scripts.td_abg import get_foreground
+from scripts.convertor import pil2cv
 
 
 
