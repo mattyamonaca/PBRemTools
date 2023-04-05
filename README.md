@@ -2,7 +2,7 @@
 PBRemTools(Precise background remover tools) is a collection of tools to crop backgrounds from a single picture with high accuracy.
 
 - Base Image
-<img src="https://user-images.githubusercontent.com/48423148/229968165-9effdc0e-db85-41d1-bfdb-1031665af88d.png" width="64", height="96">
+<img src="https://user-images.githubusercontent.com/48423148/229968165-9effdc0e-db85-41d1-bfdb-1031665af88d.png">
 
 - PBRemTools(Tile division ABG Remover)
 ![ダウンロード (21)](https://user-images.githubusercontent.com/48423148/229968905-e3ddcb5a-9421-4139-acdb-b9e4429e21e5.png)
