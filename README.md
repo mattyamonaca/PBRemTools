@@ -32,10 +32,10 @@ In this post-processing step, the input image is divided into a specified number
 Extract clusters whose mask image content exceeds a threshold value as foreground.
 
 
-- CascadePSP
+## CascadePSP
 This tool is based on CascadePSP(https://github.com/hkchengrex/CascadePSP).
 
-#Installation
+# Installation
 - Stable diffusion web ui.
 Install from webui's Extensions tab.
 
