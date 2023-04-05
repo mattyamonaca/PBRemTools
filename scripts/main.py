@@ -13,7 +13,7 @@ from scripts.td_abg import get_foreground
 from scripts.convertor import pil2cv
 
 
-def processing(self, input_image, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_rate, cascadePSP_enabled, fast, psp_L):
+def processing(input_image, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_rate, cascadePSP_enabled, fast, psp_L):
     image = pil2cv(input_image)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     mask, image = get_foreground(image, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_rate, cascadePSP_enabled, fast, psp_L)
