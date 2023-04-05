@@ -5,16 +5,19 @@ PBRemTools(Precise background remover tools) is a collection of tools to crop ba
 <img src="https://user-images.githubusercontent.com/48423148/229968165-9effdc0e-db85-41d1-bfdb-1031665af88d.png" width="30%">
 
 - PBRemTools(Tile division ABG Remover)
-![ダウンロード (21)](https://user-images.githubusercontent.com/48423148/229968905-e3ddcb5a-9421-4139-acdb-b9e4429e21e5.png)
+<img src="https://user-images.githubusercontent.com/48423148/229968905-e3ddcb5a-9421-4139-acdb-b9e4429e21e5.png" width="30%">
 
 - PBRemTools(CascadePSP)
+<img src="" width="30%">
 ![ダウンロード (22)](https://user-images.githubusercontent.com/48423148/229969256-d9c2e93f-9767-4ab9-a900-44c4051c281d.png)
 
 - ABG Remover
-![ダウンロード (23)](https://user-images.githubusercontent.com/48423148/229969296-c1367d84-056b-42e6-af5e-761234ae4e7b.png)
+<img src="https://user-images.githubusercontent.com/48423148/229969296-c1367d84-056b-42e6-af5e-761234ae4e7b.png" width="30%">
+
 
 - RemBG
-![ダウンロード (19)](https://user-images.githubusercontent.com/48423148/229969693-b7cf06f8-bd01-4dea-b604-f8f98a8c0d5d.png)
+<img src="https://user-images.githubusercontent.com/48423148/229969693-b7cf06f8-bd01-4dea-b604-f8f98a8c0d5d.png" width="30%">
+
 
 #Tools
 ## Tile division ABG Remover
@@ -23,7 +26,8 @@ Post-processing is added for more precise cropping based on the mask image gener
 
 In this post-processing step, the input image is divided into a specified number of tiles, and the pixels in each tile are clustered based on color information.
 
-![sample_0405_1](https://user-images.githubusercontent.com/48423148/229971110-2a2e60b2-9ddb-408e-b4c9-0a909ee9b9ae.png)
+<img src="https://user-images.githubusercontent.com/48423148/229971110-2a2e60b2-9ddb-408e-b4c9-0a909ee9b9ae.png" width="30%">
+
 
 Extract clusters whose mask image content exceeds a threshold value as foreground.
 
