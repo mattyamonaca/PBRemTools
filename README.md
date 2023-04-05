@@ -31,6 +31,13 @@ In this post-processing step, the input image is divided into a specified number
 
 Extract clusters whose mask image content exceeds a threshold value as foreground.
 
+### Parameters
+- horizontal split num: Number of horizontal tile divisions.
+- vertical split num: Number of vertical tile segments.
+- n_cluster: Number of clusters based on color information.
+- alpha threshold: Transparency of the mask considered as foreground.
+- mask content ratio: Threshold for how much mask a cluster should contain to be considered foreground.
+
 
 ## CascadePSP
 This tool is based on CascadePSP(https://github.com/hkchengrex/CascadePSP).
