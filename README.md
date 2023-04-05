@@ -8,8 +8,7 @@ PBRemTools(Precise background remover tools) is a collection of tools to crop ba
 <img src="https://user-images.githubusercontent.com/48423148/229968905-e3ddcb5a-9421-4139-acdb-b9e4429e21e5.png" width="30%">
 
 - PBRemTools(CascadePSP)
-<img src="" width="30%">
-![ダウンロード (22)](https://user-images.githubusercontent.com/48423148/229969256-d9c2e93f-9767-4ab9-a900-44c4051c281d.png)
+<img src="https://user-images.githubusercontent.com/48423148/229969256-d9c2e93f-9767-4ab9-a900-44c4051c281d.png" width="30%">
 
 - ABG Remover
 <img src="https://user-images.githubusercontent.com/48423148/229969296-c1367d84-056b-42e6-af5e-761234ae4e7b.png" width="30%">
