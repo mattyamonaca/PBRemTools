@@ -1,4 +1,2 @@
 # PBRemTools
-Precise background remover
-
-test
+Precise background remover tools.
