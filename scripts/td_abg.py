@@ -14,6 +14,21 @@ from PIL import Image
 
 import segmentation_refinement as refine
 
+import os
+import urllib
+from functools import lru_cache
+from random import randint
+from typing import Any, Callable, Dict, List, Tuple
+
+import clip
+import cv2
+import gradio as gr
+import numpy as np
+import PIL
+import torch
+from segment_anything import SamAutomaticMaskGenerator, sam_model_registry
+from scripts.sa_mask import  get_sa_mask
+
 
 # Declare Execution Providers
 providers = ['CUDAExecutionProvider', 'CPUExecutionProvider']
@@ -67,18 +82,26 @@ def refinement(img, mask, fast, psp_L):
     return mask
 
 
-def get_foreground(img, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_rate, cascadePSP_enabled, fast, psp_L):
+def get_foreground(img, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_rate, cascadePSP_enabled, fast, psp_L, sa_enabled ,query):
     if td_abg_enabled == True:
-        mask = get_mask(img)
-        mask = (mask * 255).astype(np.uint8)
-        mask = mask.repeat(3, axis=2)
-        if cascadePSP_enabled == True:
-            mask =  refinement(img, mask, fast, psp_L)
-            mask = cv2.cvtColor(mask, cv2.COLOR_GRAY2RGB)
         df = rgb2df(img)
 
         image_width = img.shape[1] 
         image_height = img.shape[0] 
+        
+        if cascadePSP_enabled == True:
+            if sa_enabled == True:     
+                mask = get_sa_mask(img, query)
+                mask = cv2.resize(np.uint8(mask),(image_width,image_height))
+            
+            else:
+                mask =  refinement(img, mask, fast, psp_L)
+                mask = cv2.cvtColor(mask, cv2.COLOR_GRAY2RGB)
+
+        else:
+            mask = get_mask(img)
+            mask = (mask * 255).astype(np.uint8)
+            mask = mask.repeat(3, axis=2)
 
         num_horizontal_splits = h_split
         num_vertical_splits = v_split
@@ -104,8 +127,12 @@ def get_foreground(img, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_r
         img = df2rgba(img_df)
 
     if cascadePSP_enabled == True and td_abg_enabled == False:
-        mask = get_mask(img)
-        mask = (mask * 255).astype(np.uint8)
+        if sa_enabled == True:     
+            mask = get_sa_mask(img, query)
+            mask = cv2.resize(np.uint8(mask),(image_width,image_height))
+        else:
+            mask = get_mask(img)
+            mask = (mask * 255).astype(np.uint8)
         refiner = refine.Refiner(device='cuda:0')
         mask = refiner.refine(img, mask, fast=fast, L=psp_L)
         img = np.dstack((img, mask))

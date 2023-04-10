@@ -27,3 +27,11 @@ if not launch.is_installed("segmentation-refinement"):
 if not launch.is_installed("scikit-learn"):
     launch.run_pip("install scikit-learn")
     print("Installing scikit-learn...")
+
+if not launch.is_installed("clip"):
+    launch.run_pip("install clip")
+    print("Installing clip...")
+
+if not launch.is_installed("segment_anything"):
+    launch.run_pip("install git+https://github.com/facebookresearch/segment-anything.git")
+    print("Installing segment_anything...")
