@@ -9,6 +9,7 @@ However, to use it, the Segment Anything Model must be added manually.
 
 Download the model from here (https://github.com/facebookresearch/segment-anything#model-checkpoints) and place it under "models"(stable-diffusion-webui/extensions/PBRemTools/models).
 
+This program is prepared with reference to (https://github.com/facebookresearch/segment-anything) and (https://github.com/Curt-Park/segment-anything-with-clip)
 
 # PBRemTools
 PBRemTools(Precise background remover tools) is a collection of tools to crop backgrounds from a single picture with high accuracy.
@@ -58,6 +59,5 @@ This tool is based on CascadePSP(https://github.com/hkchengrex/CascadePSP).
 - Stable diffusion web ui.
 Install from webui's Extensions tab.
 
-
-
-
+## Precautions
+This program uses code that contains the Apache License 2.0
