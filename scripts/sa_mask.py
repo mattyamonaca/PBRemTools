@@ -153,10 +153,7 @@ def segment(predicted_iou_threshold, stability_score_threshold, clip_threshold, 
     return masks
 
 
-def get_sa_mask(image, query, model_name):
-    predicted_iou_threshold = 0.9
-    stability_score_threshold = 0.9
-    clip_threshold = 0.1
+def get_sa_mask(image, query, model_name, predicted_iou_threshold, stability_score_threshold, clip_threshold):
     masks = segment(predicted_iou_threshold, stability_score_threshold, clip_threshold, image, query, model_name)
     mask_list = []
     for mask in masks:

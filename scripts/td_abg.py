@@ -90,7 +90,7 @@ def get_foreground(img, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_r
     if td_abg_enabled == True:
         if cascadePSP_enabled == True:
             if sa_enabled == True:     
-                mask = get_sa_mask(img, query, model_name)
+                mask = get_sa_mask(img, query, model_name, predicted_iou_threshold, stability_score_threshold, clip_threshold)
                 mask = cv2.resize(np.uint8(mask),(image_width,image_height))
                 print(mask.shape)
             else:
@@ -100,7 +100,7 @@ def get_foreground(img, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_r
 
         else:
             if sa_enabled == True:     
-                mask = get_sa_mask(img, query, model_name)
+                mask = get_sa_mask(img, query, model_name, predicted_iou_threshold, stability_score_threshold, clip_threshold)
                 mask = cv2.resize(np.uint8(mask),(image_width,image_height))
             else:    
                 mask = get_mask(img)
@@ -132,7 +132,7 @@ def get_foreground(img, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_r
 
     if cascadePSP_enabled == True and td_abg_enabled == False:
         if sa_enabled == True:     
-            mask = get_sa_mask(img, query, model_name)
+            mask = get_sa_mask(img, query, model_name, predicted_iou_threshold, stability_score_threshold, clip_threshold)
             mask = cv2.resize(np.uint8(mask),(image_width,image_height))
             mask = cv2.cvtColor(mask, cv2.COLOR_RGB2GRAY)
         else:
