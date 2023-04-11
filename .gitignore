@@ -18,6 +18,7 @@ parts/
 sdist/
 var/
 wheels/
+models/
 share/python-wheels/
 *.egg-info/
 .installed.cfg
@@ -33,4 +34,3 @@ MANIFEST
 # Jupyter Notebook
 *.ipynb_checkpoints
 *.ipynb:Zone.Identifier
-

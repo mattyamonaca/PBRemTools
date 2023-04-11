@@ -82,26 +82,30 @@ def refinement(img, mask, fast, psp_L):
     return mask
 
 
-def get_foreground(img, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_rate, cascadePSP_enabled, fast, psp_L, sa_enabled ,query):
-    if td_abg_enabled == True:
-        df = rgb2df(img)
 
-        image_width = img.shape[1] 
-        image_height = img.shape[0] 
-        
+def get_foreground(img, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_rate, cascadePSP_enabled, fast, psp_L, sa_enabled ,query, model_name, predicted_iou_threshold, stability_score_threshold, clip_threshold):
+    df = rgb2df(img)
+    image_width = img.shape[1] 
+    image_height = img.shape[0] 
+    if td_abg_enabled == True:
         if cascadePSP_enabled == True:
             if sa_enabled == True:     
-                mask = get_sa_mask(img, query)
+                mask = get_sa_mask(img, query, model_name)
                 mask = cv2.resize(np.uint8(mask),(image_width,image_height))
-            
+                print(mask.shape)
             else:
-                mask =  refinement(img, mask, fast, psp_L)
-                mask = cv2.cvtColor(mask, cv2.COLOR_GRAY2RGB)
+                mask = get_mask(img)
+            mask =  refinement(img, mask, fast, psp_L)
+            mask = cv2.cvtColor(mask, cv2.COLOR_GRAY2RGB)
 
         else:
-            mask = get_mask(img)
-            mask = (mask * 255).astype(np.uint8)
-            mask = mask.repeat(3, axis=2)
+            if sa_enabled == True:     
+                mask = get_sa_mask(img, query, model_name)
+                mask = cv2.resize(np.uint8(mask),(image_width,image_height))
+            else:    
+                mask = get_mask(img)
+                mask = (mask * 255).astype(np.uint8)
+                mask = mask.repeat(3, axis=2)
 
         num_horizontal_splits = h_split
         num_vertical_splits = v_split
@@ -128,8 +132,9 @@ def get_foreground(img, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_r
 
     if cascadePSP_enabled == True and td_abg_enabled == False:
         if sa_enabled == True:     
-            mask = get_sa_mask(img, query)
+            mask = get_sa_mask(img, query, model_name)
             mask = cv2.resize(np.uint8(mask),(image_width,image_height))
+            mask = cv2.cvtColor(mask, cv2.COLOR_RGB2GRAY)
         else:
             mask = get_mask(img)
             mask = (mask * 255).astype(np.uint8)

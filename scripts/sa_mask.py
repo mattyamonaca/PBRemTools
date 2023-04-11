@@ -11,27 +11,40 @@ import numpy as np
 import PIL
 import torch
 from segment_anything import SamAutomaticMaskGenerator, sam_model_registry
+from collections import OrderedDict
 
-CHECKPOINT_PATH = "./models/sam_vit_h_4b8939.pth"
-CHECKPOINT_URL = "https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth"
-MODEL_TYPE = "default"
+
+from modules.paths_internal import extensions_dir
+from modules.safe import unsafe_torch_load, load
+from modules.devices import device
+
+model_cache = OrderedDict()
+sam_model_dir = os.path.join(
+    extensions_dir, "PBRemTools/models/")
+model_list = [f for f in os.listdir(sam_model_dir) if os.path.isfile(
+    os.path.join(sam_model_dir, f)) and f.split('.')[-1] != 'txt']
+
 MAX_WIDTH = MAX_HEIGHT = 800
 CLIP_WIDTH = CLIP_HEIGHT = 300
 THRESHOLD = 0.05
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+def load_sam_model(sam_checkpoint):
+    model_type = '_'.join(sam_checkpoint.split('_')[1:-1])
+    sam_checkpoint = os.path.join(sam_model_dir, sam_checkpoint)
+    torch.load = unsafe_torch_load
+    sam = sam_model_registry[model_type](checkpoint=sam_checkpoint)
+    sam.to(device=device)
+    torch.load = load
+    return sam
 
 
-@lru_cache
-def load_mask_generator() -> SamAutomaticMaskGenerator:
-    if not os.path.exists(os.path.join(".", CHECKPOINT_PATH)):
-        urllib.request.urlretrieve(CHECKPOINT_URL, CHECKPOINT_PATH)
-    sam = sam_model_registry[MODEL_TYPE](checkpoint=CHECKPOINT_PATH).to(device)
+def load_mask_generator(model_name) -> SamAutomaticMaskGenerator:
+    sam = load_sam_model(model_name)
     mask_generator = SamAutomaticMaskGenerator(sam)
+    torch.load = load
     return mask_generator
 
-
-@lru_cache
 def load_clip(
     name: str = "ViT-B/32",
 ) -> Tuple[torch.nn.Module, Callable[[PIL.Image.Image], torch.Tensor]]:
@@ -122,8 +135,8 @@ def draw_masks(image, masks, alpha: float = 0.7) -> np.ndarray:
     return image
 
 
-def segment(predicted_iou_threshold, stability_score_threshold, clip_threshold, image, query):
-    mask_generator = load_mask_generator()
+def segment(predicted_iou_threshold, stability_score_threshold, clip_threshold, image, query, model_name):
+    mask_generator = load_mask_generator(model_name)
     image = adjust_image_size(image)
     masks = mask_generator.generate(image)
     masks = filter_masks(
@@ -140,11 +153,11 @@ def segment(predicted_iou_threshold, stability_score_threshold, clip_threshold, 
     return masks
 
 
-def get_sa_mask(image, query):
+def get_sa_mask(image, query, model_name):
     predicted_iou_threshold = 0.9
     stability_score_threshold = 0.9
     clip_threshold = 0.1
-    masks = segment(predicted_iou_threshold, stability_score_threshold, clip_threshold, image, query)
+    masks = segment(predicted_iou_threshold, stability_score_threshold, clip_threshold, image, query, model_name)
     mask_list = []
     for mask in masks:
         colored_mask = np.expand_dims(mask["segmentation"], 0).repeat(3, axis=0)
