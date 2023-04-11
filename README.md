@@ -4,7 +4,9 @@ Combine Segment Anything and CLIP and control the generating mask with text has 
 ![スクリーンショット 2023-04-11 115936](https://user-images.githubusercontent.com/48423148/231046410-3322ad98-f972-40cf-b51d-84ff3e91cb2a.png)
 
 Segmentation can also be performed from the PBRemTools tab.
+
 However, to use it, the Segment Anything Model must be added manually.
+
 Download the model from here (https://github.com/facebookresearch/segment-anything#model-checkpoints) and place it under "models"(stable-diffusion-webui/extensions/PBRemTools/models).
 
 
