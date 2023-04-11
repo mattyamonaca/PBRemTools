@@ -11,7 +11,11 @@ from modules import script_callbacks
 
 from scripts.td_abg import get_foreground
 from scripts.convertor import pil2cv
-from modules.paths_internal import extensions_dir
+try:
+    from modules.paths_internal import extensions_dir
+except Exception:
+    from modules.extensions import extensions_dir
+
 from collections import OrderedDict
 
 

@@ -13,8 +13,11 @@ import torch
 from segment_anything import SamAutomaticMaskGenerator, sam_model_registry
 from collections import OrderedDict
 
+try:
+    from modules.paths_internal import extensions_dir
+except Exception:
+    from modules.extensions import extensions_dir
 
-from modules.paths_internal import extensions_dir
 from modules.safe import unsafe_torch_load, load
 from modules.devices import device
 
