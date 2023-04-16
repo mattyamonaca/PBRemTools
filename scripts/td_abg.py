@@ -79,6 +79,9 @@ def refinement(img, mask, fast, psp_L):
     # Smaller L -> Less memory usage; faster in fast mode.
     mask = refiner.refine(img, mask, fast=fast, L=psp_L) 
 
+    with torch.no_grad():
+        torch.cuda.empty_cache()
+
     return mask
 
 
@@ -140,6 +143,8 @@ def get_foreground(img, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_r
             mask = (mask * 255).astype(np.uint8)
         refiner = refine.Refiner(device='cuda:0')
         mask = refiner.refine(img, mask, fast=fast, L=psp_L)
+        with torch.no_grad():
+            torch.cuda.empty_cache()
         img = np.dstack((img, mask))
     
     if cascadePSP_enabled == False and td_abg_enabled == False:
