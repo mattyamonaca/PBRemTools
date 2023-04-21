@@ -79,14 +79,11 @@ def on_ui_tabs():
                 submit = gr.Button(value="Submit")
             with gr.Row():
                 with gr.Column():
-                    with gr.Tab("output"):
-                        output_img = gr.Image()
-                    with gr.Tab("mask"):
-                        output_mask = gr.Image()
+                    gallery = gr.Gallery(label="outputs", show_label=True, elem_id="gallery").style(grid=2)
         submit.click(
             processing, 
             inputs=[input_image, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_rate, cascadePSP_enabled, fast, psp_L, sa_enabled, seg_query, model_name, predicted_iou_threshold, stability_score_threshold, clip_threshold], 
-            outputs=[output_img, output_mask]
+            outputs=gallery
         )
 
     return [(PBRemTools, "PBRemTools", "pbremtools")]
