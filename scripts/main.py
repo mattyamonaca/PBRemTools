@@ -51,8 +51,8 @@ def on_ui_tabs():
             with gr.Column():
                 input_image = gr.Image(type="pil")
                 with gr.Accordion("Mask Setting", open=True):
-                  with gr.Accordion("Segment Anithing & CLIP", open=True):  
-                    with gr.Accordion("Segment Anithing & CLIP", open=True):
+                  with gr.Accordion("Segment Anything & CLIP", open=True):  
+                    with gr.Accordion("Segment Anything & CLIP", open=True):
                       sa_enabled = gr.Checkbox(label="enabled", show_label=True)
                       model_name = gr.Dropdown(label="Model", elem_id="sam_model", choices=model_list,
                                           value=model_list[0] if len(model_list) > 0 else None)
