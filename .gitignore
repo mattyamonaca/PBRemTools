@@ -33,3 +33,9 @@ MANIFEST
 # Jupyter Notebook
 *.ipynb_checkpoints
 *.ipynb:Zone.Identifier
+
+# MyPy
+*/.mypy_cache/
+
+# VS Code
+.vscode/
