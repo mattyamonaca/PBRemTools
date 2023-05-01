@@ -16,4 +16,4 @@ for package in packages:
         launch.run_pip(f'install {package}', desc=f'{package} for PBRemTools')
 
 if not launch.is_installed("segment_anything"):
-    launch.run_pip("install git+https://github.com/facebookresearch/segment-anything.git", desc="segment_anything")
+    launch.run_pip("install git+https://github.com/facebookresearch/segment-anything.git", desc="segment_anything for PBRemTools")
