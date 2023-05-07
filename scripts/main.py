@@ -26,8 +26,8 @@ model_list = [f for f in os.listdir(sam_model_dir) if os.path.isfile(
     os.path.join(sam_model_dir, f)) and f.split('.')[-1] != 'txt']
 
 
-def processing(input_image, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_rate, cascadePSP_enabled, fast, psp_L, sa_enabled, seg_query, model_name, predicted_iou_threshold, stability_score_threshold, clip_threshold):
-    image = pil2cv(input_image)
+def processing(single_image, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_rate, cascadePSP_enabled, fast, psp_L, sa_enabled, seg_query, model_name, predicted_iou_threshold, stability_score_threshold, clip_threshold):
+    image = pil2cv(single_image)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     mask, image = get_foreground(image, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_rate, cascadePSP_enabled, fast, psp_L, sa_enabled, seg_query, model_name, predicted_iou_threshold, stability_score_threshold, clip_threshold)
     return image, mask
@@ -46,10 +46,15 @@ class Script(scripts.Script):
     return ()
 
 def on_ui_tabs():
+    input_tab_state = gr.State(value=0)
     with gr.Blocks(analytics_enabled=False) as PBRemTools:
         with gr.Row():
             with gr.Column():
-                input_image = gr.Image(type="pil")
+                with gr.Tabs():
+                    with gr.TabItem(label="Single") as input_tab_single:
+                        single_image = gr.Image(type="pil")
+                    with gr.TabItem(label="Batch") as input_tab_batch:
+                        batch_image = gr.Image(type="pil")
                 with gr.Accordion("Mask Setting", open=True):
                   with gr.Accordion("Segment Anything & CLIP", open=True):  
                     with gr.Accordion("Segment Anything & CLIP", open=True):
@@ -80,9 +85,13 @@ def on_ui_tabs():
             with gr.Row():
                 with gr.Column():
                     gallery = gr.Gallery(label="outputs", show_label=True, elem_id="gallery").style(grid=2)
+
+        # 0: single 1: batch
+        input_tab_single.select(fn=lambda: 0, inputs=[], outputs=[input_tab_state])
+        input_tab_batch.select(fn=lambda: 1, inputs=[], outputs=[input_tab_state])
         submit.click(
             processing, 
-            inputs=[input_image, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_rate, cascadePSP_enabled, fast, psp_L, sa_enabled, seg_query, model_name, predicted_iou_threshold, stability_score_threshold, clip_threshold], 
+            inputs=[single_image, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_rate, cascadePSP_enabled, fast, psp_L, sa_enabled, seg_query, model_name, predicted_iou_threshold, stability_score_threshold, clip_threshold], 
             outputs=gallery
         )
 
