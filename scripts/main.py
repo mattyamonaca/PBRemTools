@@ -46,8 +46,8 @@ class Script(scripts.Script):
     return ()
 
 def on_ui_tabs():
-    input_tab_state = gr.State(value=0)
     with gr.Blocks(analytics_enabled=False) as PBRemTools:
+        input_tab_state = gr.State(value=0)
         with gr.Row():
             with gr.Column():
                 with gr.Tabs():
