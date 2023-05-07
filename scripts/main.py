@@ -17,7 +17,7 @@ except Exception:
     from modules.extensions import extensions_dir
 
 from collections import OrderedDict
-
+from PIL import Image
 
 model_cache = OrderedDict()
 sam_model_dir = os.path.join(
@@ -28,12 +28,17 @@ model_list = [f for f in os.listdir(sam_model_dir) if os.path.isfile(
 def processing(single_image, batch_image, input_tab_state, *rem_args):
     # 0: single
     if (input_tab_state == 0):
-        result = process_image(single_image, *rem_args)
-        return result
+        processed = process_image(single_image, *rem_args)
+        return processed
     # 1 (or ohter): batch
     else:
-        result = process_image(batch_image, *rem_args)
-        return result
+        processed = []
+        for i in batch_image:
+            image = Image.open(i)
+            r = process_image(image, *rem_args)
+            processed.append(r[0])
+            processed.append(r[1])
+        return processed
 
 def process_image(target_image, *rem_args):
     image = pil2cv(target_image)
@@ -63,7 +68,7 @@ def on_ui_tabs():
                     with gr.TabItem(label="Single") as input_tab_single:
                         single_image = gr.Image(type="pil")
                     with gr.TabItem(label="Batch") as input_tab_batch:
-                        batch_image = gr.Image(type="pil")
+                        batch_image = gr.File(label="Batch Images", file_count="multiple", interactive=True, type="file")
                 with gr.Accordion("Mask Setting", open=True):
                   with gr.Accordion("Segment Anything & CLIP", open=True):  
                     with gr.Accordion("Segment Anything & CLIP", open=True):
