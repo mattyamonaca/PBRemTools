@@ -17,7 +17,7 @@ except Exception:
     from modules.extensions import extensions_dir
 
 from collections import OrderedDict
-
+from PIL import Image
 
 model_cache = OrderedDict()
 sam_model_dir = os.path.join(
@@ -25,11 +25,25 @@ sam_model_dir = os.path.join(
 model_list = [f for f in os.listdir(sam_model_dir) if os.path.isfile(
     os.path.join(sam_model_dir, f)) and f.split('.')[-1] != 'txt']
 
+def processing(single_image, batch_image, input_tab_state, *rem_args):
+    # 0: single
+    if (input_tab_state == 0):
+        processed = process_image(single_image, *rem_args)
+        return processed
+    # 1 (or ohter): batch
+    else:
+        processed = []
+        for i in batch_image:
+            image = Image.open(i)
+            r = process_image(image, *rem_args)
+            processed.append(r[0])
+            processed.append(r[1])
+        return processed
 
-def processing(input_image, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_rate, cascadePSP_enabled, fast, psp_L, sa_enabled, seg_query, model_name, predicted_iou_threshold, stability_score_threshold, clip_threshold):
-    image = pil2cv(input_image)
+def process_image(target_image, *rem_args):
+    image = pil2cv(target_image)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    mask, image = get_foreground(image, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_rate, cascadePSP_enabled, fast, psp_L, sa_enabled, seg_query, model_name, predicted_iou_threshold, stability_score_threshold, clip_threshold)
+    mask, image = get_foreground(image, *rem_args)
     return image, mask
 
 class Script(scripts.Script):
@@ -47,9 +61,14 @@ class Script(scripts.Script):
 
 def on_ui_tabs():
     with gr.Blocks(analytics_enabled=False) as PBRemTools:
+        input_tab_state = gr.State(value=0)
         with gr.Row():
             with gr.Column():
-                input_image = gr.Image(type="pil")
+                with gr.Tabs():
+                    with gr.TabItem(label="Single") as input_tab_single:
+                        single_image = gr.Image(type="pil")
+                    with gr.TabItem(label="Batch") as input_tab_batch:
+                        batch_image = gr.File(label="Batch Images", file_count="multiple", interactive=True, type="file")
                 with gr.Accordion("Mask Setting", open=True):
                     with gr.Tab("Segment Anything & CLIP"):
                         sa_enabled = gr.Checkbox(label="enabled", show_label=True)
@@ -77,9 +96,13 @@ def on_ui_tabs():
             with gr.Row():
                 with gr.Column():
                     gallery = gr.Gallery(label="outputs", show_label=True, elem_id="gallery").style(grid=2)
+
+        # 0: single 1: batch
+        input_tab_single.select(fn=lambda: 0, inputs=[], outputs=[input_tab_state])
+        input_tab_batch.select(fn=lambda: 1, inputs=[], outputs=[input_tab_state])
         submit.click(
             processing, 
-            inputs=[input_image, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_rate, cascadePSP_enabled, fast, psp_L, sa_enabled, seg_query, model_name, predicted_iou_threshold, stability_score_threshold, clip_threshold], 
+            inputs=[single_image, batch_image, input_tab_state, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_rate, cascadePSP_enabled, fast, psp_L, sa_enabled, seg_query, model_name, predicted_iou_threshold, stability_score_threshold, clip_threshold],
             outputs=gallery
         )
 
