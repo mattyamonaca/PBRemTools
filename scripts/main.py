@@ -64,7 +64,7 @@ def processing(single_image, batch_image, input_dir, output_dir, show_result, in
             images.save_image(
                 Image.fromarray(mask),
                 path=output_dir,
-                basename=basename+"_mask",
+                basename=basename+"-mask",
                 extension=ext,
             )
         if (show_result):
