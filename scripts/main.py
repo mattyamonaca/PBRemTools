@@ -37,9 +37,9 @@ def processing(single_image, batch_image, input_dir, output_dir, show_result, in
         processed = []
         for i in batch_image:
             image = Image.open(i)
-            r = process_image(image, *rem_args)
-            processed.append(r[0])
-            processed.append(r[1])
+            base, mask = process_image(image, *rem_args)
+            processed.append(base)
+            processed.append(mask)
         return processed
     # 2: batch dir (or other)
     else:
