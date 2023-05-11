@@ -1,4 +1,4 @@
-name: minimum compile error check
+name: compile error check
 
 on:
   - push
