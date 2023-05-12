@@ -61,3 +61,10 @@ Install from webui's Extensions tab.
 
 ## Precautions
 This program uses code that contains the Apache License 2.0
+
+# API
+Currently, there are two APIs available:
+ - To get the currently available SAM model: `GET http://localhost:7861/pbrem/sam-model`
+ - To process an image: `POST http://localhost:7861/pbrem/predict`
+
+After launching the web UI API, you can visit the detailed API documentation at `http://localhost:7861/redoc`
