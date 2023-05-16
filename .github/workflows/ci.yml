@@ -1,0 +1,26 @@
+name: compile error check
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Check base compile error
+        run: |
+          ls *.py | xargs python -m py_compile
+      - name: Check scripts compile error
+        run: |
+          ls scripts/*.py | xargs python -m py_compile
