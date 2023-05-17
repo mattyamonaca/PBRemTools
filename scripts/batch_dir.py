@@ -27,7 +27,8 @@ def modify_basename(basename):
         # If there's a hyphen or underscore just before the sequence number,
         # include it in the new name.
         if prefix and (prefix[-1] == '_' or prefix[-1] == '-'):
-            return f"{prefix[:-1]}_mask{prefix[-1]}{sequence}{extension}"
+            separator = prefix[-1]
+            return f"{prefix[:-1]}{separator}mask{separator}{sequence}{extension}"
         else:
             return f"{prefix}_mask{sequence}{extension}"
     else:
@@ -35,4 +36,4 @@ def modify_basename(basename):
         if basename and (basename[-1] == '_' or basename[-1] == '-'):
             return f"{basename}mask"
         else:
-            return f"{basename}_mask"
+            return f"{basename}-mask"
