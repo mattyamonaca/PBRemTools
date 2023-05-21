@@ -5,7 +5,7 @@ packages = {
     "onnxruntime-gpu": "onnxruntime-gpu==1.14.0",
     "opencv-python": "opencv-python",
     "numpy": "numpy",
-    "Pillow": "numpy",
+    "Pillow": "Pillow",
     "segmentation-refinement": "segmentation-refinement",
     "scikit-learn": "scikit-learn",
     "clip": "clip",
