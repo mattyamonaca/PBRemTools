@@ -1,19 +1,19 @@
 import launch
 
-packages = [
-    "onnx",
-    "onnxruntime-gpu",
-    "opencv-python",
-    "numpy",
-    "Pillow",
-    "segmentation-refinement",
-    "scikit-learn",
-    "clip",
-]
+packages = {
+    "onnx": "onnx",
+    "onnxruntime-gpu": "onnxruntime-gpu==1.14.0",
+    "opencv-python": "opencv-python",
+    "numpy": "numpy",
+    "Pillow": "numpy",
+    "segmentation-refinement": "segmentation-refinement",
+    "scikit-learn": "scikit-learn",
+    "clip": "clip",
+}
 
-for package in packages:
-    if not launch.is_installed(package):
-        launch.run_pip(f'install {package}', desc=f'{package} for PBRemTools')
+for name, target in packages.items():
+    if not launch.is_installed(name):
+        launch.run_pip(f'install {target}', desc=f'{name} for PBRemTools')
 
 if not launch.is_installed("segment_anything"):
     launch.run_pip("install git+https://github.com/facebookresearch/segment-anything.git", desc="segment_anything for PBRemTools")
