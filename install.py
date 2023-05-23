@@ -2,12 +2,12 @@ import launch
 
 packages = {
     "onnx": "onnx",
-    "onnxruntime-gpu": "onnxruntime-gpu==1.14.0",
-    "opencv-python": "opencv-python",
+    "onnxruntime": "onnxruntime-gpu==1.14.0",
+    "cv2": "opencv-python",
     "numpy": "numpy",
-    "Pillow": "Pillow",
-    "segmentation-refinement": "segmentation-refinement",
-    "scikit-learn": "scikit-learn",
+    "PIL": "Pillow",
+    "segmentation_refinement": "segmentation-refinement",
+    "sklearn": "scikit-learn",
     "clip": "clip",
 }
 
