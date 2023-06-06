@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 
 from modules.api.api import encode_pil_to_base64, decode_base64_to_image
-from scripts.main import process_image, model_list
+from scripts.tools import process_image, model_list
 
 
 class PBRRemRequest(BaseModel):
