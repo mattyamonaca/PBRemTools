@@ -102,6 +102,7 @@ def filter_masks(
         filtered_masks.append(mask)
 
         x, y, w, h = mask["bbox"]
+        x, y, w, h = int(x), int(y), int(w), int(h)
         crop = image[y : y + h, x : x + w]
         crop = cv2.cvtColor(crop, cv2.COLOR_BGR2RGB)
         crop = PIL.Image.fromarray(np.uint8(crop * 255)).convert("RGB")
