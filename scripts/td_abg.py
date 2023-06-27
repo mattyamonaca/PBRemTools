@@ -92,12 +92,14 @@ def get_foreground(img, td_abg_enabled, h_split, v_split, n_cluster, alpha, th_r
     image_height = img.shape[0] 
     if td_abg_enabled == True:
         if cascadePSP_enabled == True:
-            if sa_enabled == True:     
+            if sa_enabled == True:
                 mask = get_sa_mask(img, query, model_name, predicted_iou_threshold, stability_score_threshold, clip_threshold)
                 mask = cv2.resize(np.uint8(mask),(image_width,image_height))
                 print(mask.shape)
             else:
                 mask = get_mask(img)
+                mask = (mask * 255).astype(np.uint8)
+                mask = mask.repeat(3, axis=2)
             mask =  refinement(img, mask, fast, psp_L)
             mask = cv2.cvtColor(mask, cv2.COLOR_GRAY2RGB)
 
