@@ -67,7 +67,7 @@ def pbrem_api(_: gr.Blocks, app: FastAPI):
 def encode_pil_to_base64(img: Image) -> str:
     # First, you need to save your PIL Image object to an in-memory file:
     buffer = io.BytesIO()
-    Image.fromarray(img.astype('uint8'), 'RGBA').save(buffer, format="PNG")
+    img.save(buffer, format="PNG")
 
     # Then, get the content of the file:
     img_str = buffer.getvalue()
