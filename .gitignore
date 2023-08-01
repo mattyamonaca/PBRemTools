@@ -33,4 +33,3 @@ MANIFEST
 # Jupyter Notebook
 *.ipynb_checkpoints
 *.ipynb:Zone.Identifier
-.history
