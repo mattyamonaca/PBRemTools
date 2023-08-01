@@ -5,8 +5,11 @@ from PIL import Image
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 
-from modules.api.api import encode_pil_to_base64, decode_base64_to_image
+from modules.api.api import  decode_base64_to_image#encode_pil_to_base64,
 from scripts.tools import process_image, model_list
+import io
+import base64
+
 
 
 class PBRRemRequest(BaseModel):
@@ -36,7 +39,6 @@ class PBRRemResponse(BaseModel):
     img: str
     mask: str
 
-
 def pbrem_api(_: gr.Blocks, app: FastAPI):
 
     @app.get("/pbrem/sam-model", description='query available SAM model', response_model=List[str])
@@ -62,6 +64,20 @@ def pbrem_api(_: gr.Blocks, app: FastAPI):
             base64_mask = base64_mask.decode()
         return PBRRemResponse(img=base64_img, mask=base64_mask)
 
+def encode_pil_to_base64(img: Image) -> str:
+    # First, you need to save your PIL Image object to an in-memory file:
+    buffer = io.BytesIO()
+    Image.fromarray(img.astype('uint8'), 'RGBA').save(buffer, format="PNG")
+
+    # Then, get the content of the file:
+    img_str = buffer.getvalue()
+
+    # Encode this string into base64:
+    img_base64 = base64.b64encode(img_str)
+
+    # Convert bytes to string for transmission:
+    img_base64_str = img_base64.decode()
+    return img_base64_str
 
 try:
     import modules.script_callbacks as script_callbacks
