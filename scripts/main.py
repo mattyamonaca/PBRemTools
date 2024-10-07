@@ -44,7 +44,7 @@ def on_ui_tabs():
                 submit = gr.Button(value="Submit")
             with gr.Row():
                 with gr.Column():
-                    gallery = gr.Gallery(label="outputs", show_label=True, elem_id="gallery").style(grid=2, object_fit="contain")
+                    gallery = gr.Gallery(label="outputs", show_label=True, elem_id="gallery", columns=2, object_fit="contain")
 
         # 0: single 1: batch 2: batch dir
         input_tab_single.select(fn=lambda: 0, inputs=[], outputs=[input_tab_state])
