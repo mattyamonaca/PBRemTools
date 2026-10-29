@@ -12,7 +12,7 @@ def on_ui_tabs():
                     with gr.TabItem(label="Single") as input_tab_single:
                         single_image = gr.Image(type="pil")
                     with gr.TabItem(label="Batch") as input_tab_batch:
-                        batch_image = gr.File(label="Batch Images", file_count="multiple", interactive=True, type="file")
+                        batch_image = gr.File(label="Batch Images", file_count="multiple", interactive=True, type="filepath")
                     with gr.TabItem(label="Batch from Dir") as input_tab_dir:
                         input_dir = gr.Textbox(label="Input directory", **shared.hide_dirs)
                         output_dir = gr.Textbox(label="Output directory", **shared.hide_dirs)
